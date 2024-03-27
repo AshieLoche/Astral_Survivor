@@ -11,7 +11,7 @@
                     "id": "76b4dae6-8ed6-4613-8739-26c86ca10533",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -29,7 +29,7 @@
                     "id": "3f74cbba-f5f0-495c-be66-9b10f0724ef5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -47,7 +47,7 @@
                     "name": "WASD",
                     "id": "e0fd4906-efd8-43d7-9216-15ab3c1bca0d",
                     "path": "2DVector",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
@@ -113,7 +113,7 @@
                     "name": "",
                     "id": "9d54dc85-abf5-4f34-8b0a-9ff3b64a905d",
                     "path": "<Keyboard>/leftShift",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Run",
