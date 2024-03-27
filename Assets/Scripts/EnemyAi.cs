@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAi : MonoBehaviour
 {
@@ -23,8 +24,13 @@ public class EnemyAi : MonoBehaviour
 
     private bool isChasing = false; // Flag to indicate chasing state
 
+    public bool isPlayerSafe = false;
+    private static EnemyAi _instance;
+    public static EnemyAi Instance {  get { return _instance; } }
+
     private void Awake()
     {
+        _instance = this;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>(); // Get Animator component
@@ -40,20 +46,21 @@ public class EnemyAi : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (!isChasing && distanceToPlayer <= detectionRadius) // Player detected within radius
+        if (!isChasing && distanceToPlayer <= detectionRadius && !isPlayerSafe) // Player detected within radius
         {
             isChasing = true; // Start chasing the player
             agent.speed = chaseSpeed; // Set speed for chasing
+            animator.SetBool("IsWalking", true);
             animator.SetBool("IsRunning", true); // Trigger running animation
             agent.SetDestination(player.position);
         }
 
-        if (isChasing && distanceToPlayer <= detectionRadius)
+        if (isChasing && distanceToPlayer <= detectionRadius && !isPlayerSafe)
         {
             agent.SetDestination(player.position);
         }
 
-        if (isChasing && distanceToPlayer > detectionRadius) // Player exits radius
+        if ((isChasing && distanceToPlayer > detectionRadius) || isPlayerSafe) // Player exits radius
         {
             isChasing = false; // Stop chasing
             agent.speed = patrolSpeed; // Set speed back to patrol speed
@@ -91,4 +98,15 @@ public class EnemyAi : MonoBehaviour
         animator.SetBool("IsRunning", false); // Reset running animation
         NextWaypoint(); // Move to the next waypoint after stopping chase
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Handle specific collision events here (e.g., play sound effect)
+        if (other.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene("EndScreen");
+        }
+
+    }
+
 }
