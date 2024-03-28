@@ -22,6 +22,7 @@ public class Character_Controller : MonoBehaviour
     [SerializeField]
     private bool isGrounded = false;
     private InputManager inputManager;
+    [SerializeField]
     private Transform cameraTransform;
 
     // Start is called before the first frame update
@@ -30,7 +31,6 @@ public class Character_Controller : MonoBehaviour
 
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        cameraTransform = Camera.main.transform;
 
         inputManager = InputManager.Instance;
 
