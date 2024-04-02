@@ -19,7 +19,15 @@ public class SafeZoneBoundary : MonoBehaviour
 
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            enemyAi.PlayerSafe();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

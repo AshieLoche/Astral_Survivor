@@ -60,7 +60,7 @@ public class EnemyAi : MonoBehaviour
             agent.SetDestination(player.position);
         }
 
-        if ((isChasing && distanceToPlayer > detectionRadius) || isPlayerSafe) // Player exits radius
+        if ((isChasing && distanceToPlayer > detectionRadius)) // Player exits radius
         {
             isChasing = false; // Stop chasing
             agent.speed = patrolSpeed; // Set speed back to patrol speed
@@ -107,6 +107,14 @@ public class EnemyAi : MonoBehaviour
             SceneManager.LoadScene("EndScreen");
         }
 
+    }
+
+    public void PlayerSafe()
+    {
+        isPlayerSafe = true;
+        isChasing = false; // Stop chasing
+        agent.speed = patrolSpeed; // Set speed back to patrol speed
+        ResumePatrolling(); // Resume patrolling behavior
     }
 
 }
