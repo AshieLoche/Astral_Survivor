@@ -49,7 +49,9 @@ public class Character_Controller : MonoBehaviour
         isRunning = inputManager.GetRunStatus();
 
         isGrounded = controller.isGrounded;
+
         PlayerControls();
+
     }
 
     public void PlayerControls()
