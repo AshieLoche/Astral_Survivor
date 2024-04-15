@@ -12,6 +12,9 @@ public class KeyManager : MonoBehaviour
     [Header("General")]
     [SerializeField]
     private bool collected = false;
+    private static KeyManager _instance;
+    public static KeyManager Instance { get { return _instance; } }
+    protected Color keyColor;
 
     [Header("Collected")]
     [SerializeField]
@@ -22,8 +25,6 @@ public class KeyManager : MonoBehaviour
     private float rotationSpeed = 100;
 
     [Header("Collected")]
-    [SerializeField]
-    private Transform key;
     [SerializeField]
     private Transform cameraTransform;
     [SerializeField]
@@ -36,6 +37,13 @@ public class KeyManager : MonoBehaviour
     [Header("Unlock")]
     [SerializeField]
     private GameObject keyBody;
+    [SerializeField]
+    private GameObject door;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +51,9 @@ public class KeyManager : MonoBehaviour
         Material keyBodyMaterial = keyBody.GetComponent<Renderer>().material;
         keyBodyMaterial.color = Color.blue;
         Debug.Log(keyBodyMaterial.color);
+        Material doorMaterial = keyBody.GetComponent<Renderer>().material;
+        Debug.Log(doorMaterial.color);
+        Debug.Log(keyBodyMaterial.color == doorMaterial.color);
 
         keyCollect.SetActive(false);
     }
@@ -51,19 +62,16 @@ public class KeyManager : MonoBehaviour
     void Update()
     {
 
-
         if (collected)
         {
-            //key.position = new Vector3(0f, 1f, player.position.z + 1f);
-
             // Calculate a position in front of the player, offset by the circle radius
-            Vector3 targetPosition = cameraTransform.position + cameraTransform.transform.forward * circleRadius;
+            Vector3 targetPosition = cameraTransform.position + cameraTransform.transform.forward;
 
             // Rotate the key to face the player
-            key.LookAt(cameraTransform.transform);
+            transform.LookAt(cameraTransform.transform);
 
             // Move the key smoothly towards the target position
-            key.transform.position = Vector3.SmoothDamp(key.transform.position, targetPosition, ref velocity, smoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
 
         if (keyCollect.activeInHierarchy)
@@ -92,15 +100,6 @@ public class KeyManager : MonoBehaviour
             {
                 keyCollect.SetActive(true);
             }
-        }
-
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        
-        if (other.gameObject.CompareTag("Player"))
-        {
         }
 
     }
